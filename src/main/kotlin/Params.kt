@@ -17,6 +17,8 @@ class Params(json: String?) {
     val actionId: String
     @SerializedName("commit_sha")
     val commitSha: String?
+    @SerializedName("commit_auth")
+    val commitAuth: String?
     @SerializedName("commit_info")
     val commitInfo: String?
     @SerializedName("action_ref")
@@ -52,8 +54,10 @@ class Params(json: String?) {
                 val jsonObject = gson.fromJson(commitInfoJson, JsonObject::class.java)
                 val commit = jsonObject.getAsJsonObject("commit")
                 commitInfo = commit.get("message").asString
+                commitAuth = commit.getAsJsonObject("committer").get("name").asString
             } else {
                 commitInfo = null
+                commitAuth = null
             }
 
             val prNumber = System.getenv("PR_NUMBER")
@@ -88,6 +92,7 @@ class Params(json: String?) {
             actionRef = params.actionRef
             commitSha = params.commitSha
             commitInfo = params.commitInfo
+            commitAuth = params.commitAuth
             pullRequest = params.pullRequest
             release = params.release
             releaseInfo = params.releaseInfo

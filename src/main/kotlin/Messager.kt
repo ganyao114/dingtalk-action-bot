@@ -62,7 +62,8 @@ class Messager(private val params: Params) {
         } else {
             content.append("### Commit 信息\n")
             content.append("- 提交 [#${params.commitSha}](https://github.com/commit/${params.commitSha})\n")
-            content.append("- ${params.commitInfo}\n")
+            content.append("- 提交者：${params.commitAuth}\n")
+            content.append("- 提交信息：${params.commitInfo}\n")
         }
 
         uploadedFile?.let {
@@ -121,7 +122,8 @@ class Messager(private val params: Params) {
         } else {
             content.append("### Commit 信息\n")
             content.append("- 提交 [#${params.commitSha}](https://github.com/commit/${params.commitSha})\n")
-            content.append("- ${params.commitInfo}\n")
+            content.append("- 提交者：${params.commitAuth}\n")
+            content.append("- 提交信息：${params.commitInfo}\n")
         }
 
         params.users?.let {
