@@ -39,7 +39,6 @@ jobs:
 
     - name: Test
       run: |
-        export BUILD_SUCCESS
         export PR_NUMBER=${{ github.event.pull_request.number }}
         export PR_TITLE=${{ github.event.pull_request.title }}
         export PR_BODY=${{ github.event.pull_request.body }}

@@ -46,7 +46,7 @@ class Params(json: String?) {
             actionRef = System.getenv("GITHUB_REF")
             accessToken = System.getenv("DING_ACCESS_TOKEN")
             accessSecure = System.getenv("DING_ACCESS_SECRET")
-            success = System.getenv().containsKey("BUILD_SUCCESS") && System.getenv("BUILD_SUCCESS").equals("1")
+            success = System.getenv().containsKey("BUILD_SUCCESS") && System.getenv("BUILD_SUCCESS").equals("true")
             commitSha = System.getenv("GITHUB_SHA")
             val commitInfoJson = System.getenv("COMMIT_INFO")
 
