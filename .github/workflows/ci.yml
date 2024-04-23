@@ -44,10 +44,10 @@ jobs:
         PR_COMMITS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/${{ github.event.pull_request.number }}/commits)
         RELEASE_TAG=${{ github.event.release.tag_name }}
         RELEASE_BODY=${{ github.event.release.body }}
-        DING_ACCESS_SECRET=${{ vars.DING_ACCESS_SECRET }}
-        DING_ACCESS_TOKEN=${{ vars.DING_ACCESS_TOKEN }}
-        OSS_API_KEY=${{ vars.OSS_API_KEY }}
-        OSS_API_SEC=${{ vars.OSS_API_SEC }}
+        DING_ACCESS_SECRET=${{ secrets.DING_ACCESS_SECRET }}
+        DING_ACCESS_TOKEN=${{ secrets.DING_ACCESS_TOKEN }}
+        OSS_API_KEY=${{ secrets.OSS_API_KEY }}
+        OSS_API_SEC=${{ secrets.OSS_API_SEC }}
         echo ${DING_ACCESS_SECRET}
         echo ${BUILD_SUCCESS}
         BUILD_OUTPUT_FILES=${GITHUB_WORKSPACE}/build/libs/dingtalk-action-robot-1.0.jar
