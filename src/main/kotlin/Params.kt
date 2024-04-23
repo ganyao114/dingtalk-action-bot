@@ -76,7 +76,7 @@ class Params(json: String?) {
                             val commit = jsonElement.getAsJsonObject().getAsJsonObject("commit")
                             val info = commit.get("message").asString
                             val url = jsonElement.getAsJsonObject().get("html_url").asString
-                            content.append("  $index. [$info]($url)")
+                            content.append("    - $index. [$info]($url)")
                             index++
                         }
                         prCommits = content.toString()

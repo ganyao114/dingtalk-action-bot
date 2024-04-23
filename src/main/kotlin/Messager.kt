@@ -55,7 +55,7 @@ class Messager(private val params: Params) {
         if (!params.release.isNullOrEmpty()) {
             content.append("### 正式发布\n")
             content.append("- 版本：${params.release}\n")
-            content.append("${params.releaseInfo}\n")
+            content.append("- ${params.releaseInfo}\n")
         } else if (!params.pullRequest.isNullOrEmpty()) {
             content.append("### PR 信息\n")
             content.append("${params.pullRequest}\n")
@@ -64,7 +64,7 @@ class Messager(private val params: Params) {
             content.append("- [提交链接](https://github.com/${params.project}/commit/${params.commitSha})\n")
             content.append("- 提交者：${params.commitAuth}\n")
             content.append("- 提交信息：\n")
-            content.append("    ${params.commitInfo}\n")
+            content.append("    - ${params.commitInfo}\n")
         }
 
         uploadedFile?.let {
@@ -119,7 +119,7 @@ class Messager(private val params: Params) {
             content.append("- [提交链接](https://github.com/${params.project}/commit/${params.commitSha})\n")
             content.append("- 提交者：${params.commitAuth}\n")
             content.append("- 提交信息：\n")
-            content.append("    ${params.commitInfo}\n")
+            content.append("    - ${params.commitInfo}\n")
         }
 
         params.users?.let {
