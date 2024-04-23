@@ -1,5 +1,6 @@
 package com.swift
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
 import java.lang.System
 
@@ -44,7 +45,16 @@ class Params(json: String?) {
             accessSecure = System.getenv("DING_ACCESS_SECRET")
             success = System.getenv().containsKey("BUILD_SUCCESS") && System.getenv("BUILD_SUCCESS").equals("1")
             commitSha = System.getenv("GITHUB_SHA")
-            commitInfo = System.getenv("COMMIT_INFO")
+            val commitInfoJson = System.getenv("COMMIT_INFO")
+
+            if (!commitInfoJson.isNullOrEmpty()) {
+                val gson = Gson()
+                val jsonObject = gson.fromJson(commitInfoJson, JsonObject::class.java)
+                val commit = jsonObject.getAsJsonObject("commit")
+                commitInfo = commit.get("message").asString
+            } else {
+                commitInfo = null
+            }
 
             val prNumber = System.getenv("PR_NUMBER")
 
