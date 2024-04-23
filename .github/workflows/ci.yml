@@ -37,20 +37,20 @@ jobs:
 
     - name: Test
       run: |
-        BUILD_SUCCESS=1
-        PR_NUMBER=${{ github.event.pull_request.number }}
-        PR_TITLE=${{ github.event.pull_request.title }}
-        PR_PR_AUTHOR=${{ github.event.pull_request.user.login }}
-        PR_COMMITS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/${{ github.event.pull_request.number }}/commits)
-        RELEASE_TAG=${{ github.event.release.tag_name }}
-        RELEASE_BODY=${{ github.event.release.body }}
-        DING_ACCESS_SECRET=${{ secrets.DING_ACCESS_SECRET }}
-        DING_ACCESS_TOKEN=${{ secrets.DING_ACCESS_TOKEN }}
-        OSS_API_KEY=${{ secrets.OSS_API_KEY }}
-        OSS_API_SEC=${{ secrets.OSS_API_SEC }}
+        export BUILD_SUCCESS=1
+        export PR_NUMBER=${{ github.event.pull_request.number }}
+        export PR_TITLE=${{ github.event.pull_request.title }}
+        export PR_PR_AUTHOR=${{ github.event.pull_request.user.login }}
+        export PR_COMMITS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/${{ github.event.pull_request.number }}/commits)
+        export RELEASE_TAG=${{ github.event.release.tag_name }}
+        export RELEASE_BODY=${{ github.event.release.body }}
+        export DING_ACCESS_SECRET=${{ secrets.DING_ACCESS_SECRET }}
+        export DING_ACCESS_TOKEN=${{ secrets.DING_ACCESS_TOKEN }}
+        export OSS_API_KEY=${{ secrets.OSS_API_KEY }}
+        export OSS_API_SEC=${{ secrets.OSS_API_SEC }}
+        export BUILD_OUTPUT_FILES=${GITHUB_WORKSPACE}/build/libs/dingtalk-action-robot-1.0.jar
         echo ${DING_ACCESS_SECRET}
         echo ${BUILD_SUCCESS}
-        BUILD_OUTPUT_FILES=${GITHUB_WORKSPACE}/build/libs/dingtalk-action-robot-1.0.jar
         java -jar build/libs/dingtalk-action-robot-1.0.jar
         
         
