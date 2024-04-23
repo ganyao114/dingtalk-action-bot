@@ -14,6 +14,10 @@ class Params(json: String?) {
     val success: Boolean
     @SerializedName("action_id")
     val actionId: String
+    @SerializedName("commit_sha")
+    val commitSha: String?
+    @SerializedName("commit_info")
+    val commitInfo: String?
     @SerializedName("action_ref")
     val actionRef: String?
     @SerializedName("pull_request")
@@ -39,6 +43,8 @@ class Params(json: String?) {
             accessToken = System.getenv("DING_ACCESS_TOKEN")
             accessSecure = System.getenv("DING_ACCESS_SECRET")
             success = System.getenv().containsKey("BUILD_SUCCESS") && System.getenv("BUILD_SUCCESS").equals("1")
+            commitSha = System.getenv("GITHUB_SHA")
+            commitInfo = System.getenv("COMMIT_INFO")
 
             val prNumber = System.getenv("PR_NUMBER")
 
@@ -70,6 +76,8 @@ class Params(json: String?) {
             success = params.success
             actionId = params.actionId
             actionRef = params.actionRef
+            commitSha = params.commitSha
+            commitInfo = params.commitInfo
             pullRequest = params.pullRequest
             release = params.release
             releaseInfo = params.releaseInfo

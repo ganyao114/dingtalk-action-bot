@@ -52,16 +52,17 @@ class Messager(private val params: Params) {
         }
         content.append("- Action 链接：[#${params.actionId}](https://github.com/${params.project}/actions/runs/${params.actionId})\n")
 
-
-        params.pullRequest?.let {
-            content.append("### PR 信息\n")
-            content.append("${params.pullRequest}\n")
-        }
-
-        params.release?.let {
+        if (!params.release.isNullOrEmpty()) {
             content.append("### 正式发布\n")
             content.append("- 版本：${params.release}\n")
             content.append("${params.releaseInfo}\n")
+        } else if (!params.pullRequest.isNullOrEmpty()) {
+            content.append("### PR 信息\n")
+            content.append("${params.pullRequest}\n")
+        } else {
+            content.append("### Commit 信息\n")
+            content.append("- 提交 [#${params.commitSha}](https://github.com/commit/${params.commitSha})\n")
+            content.append("- ${params.commitInfo}\n")
         }
 
         uploadedFile?.let {
@@ -83,7 +84,7 @@ class Messager(private val params: Params) {
         text.text = content.toString()
         req.msgtype = "markdown"
         req.setMarkdown(text)
-        val rsp = getDingTalkClient().execute<OapiRobotSendResponse>(req, params.accessToken)
+        val rsp = getDingTalkClient().execute(req, params.accessToken)
         return rsp.isSuccess
     }
 
@@ -110,10 +111,17 @@ class Messager(private val params: Params) {
             content.append("${params.pullRequest}\n")
         }
 
-        params.release?.let {
+        if (!params.release.isNullOrEmpty()) {
             content.append("### 正式发布\n")
             content.append("- 版本：${params.release}\n")
             content.append("${params.releaseInfo}\n")
+        } else if (!params.pullRequest.isNullOrEmpty()) {
+            content.append("### PR 信息\n")
+            content.append("${params.pullRequest}\n")
+        } else {
+            content.append("### Commit 信息\n")
+            content.append("- 提交 [#${params.commitSha}](https://github.com/commit/${params.commitSha})\n")
+            content.append("- ${params.commitInfo}\n")
         }
 
         params.users?.let {
@@ -129,7 +137,7 @@ class Messager(private val params: Params) {
         text.text = content.toString()
         req.msgtype = "markdown"
         req.setMarkdown(text)
-        val rsp = getDingTalkClient().execute<OapiRobotSendResponse>(req, params.accessToken)
+        val rsp = getDingTalkClient().execute(req, params.accessToken)
         return rsp.isSuccess
     }
 
