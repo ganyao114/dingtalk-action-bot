@@ -48,9 +48,8 @@ jobs:
         export DING_ACCESS_TOKEN=${{ secrets.DING_ACCESS_TOKEN }}
         export OSS_API_KEY=${{ secrets.OSS_API_KEY }}
         export OSS_API_SEC=${{ secrets.OSS_API_SEC }}
+        export COMMIT_INFO=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA)
         export BUILD_OUTPUT_FILES=${GITHUB_WORKSPACE}/build/libs/dingtalk-action-robot-1.0.jar
-        echo ${DING_ACCESS_SECRET}
-        echo ${BUILD_SUCCESS}
         java -jar build/libs/dingtalk-action-robot-1.0.jar
         
         
