@@ -48,6 +48,8 @@ jobs:
         DING_ACCESS_TOKEN=${{ vars.DING_ACCESS_TOKEN }}
         OSS_API_KEY=${{ vars.OSS_API_KEY }}
         OSS_API_SEC=${{ vars.OSS_API_SEC }}
+        echo ${DING_ACCESS_SECRET}
+        echo ${BUILD_SUCCESS}
         BUILD_OUTPUT_FILES=${GITHUB_WORKSPACE}/build/libs/dingtalk-action-robot-1.0.jar
         java -jar build/libs/dingtalk-action-robot-1.0.jar
         
