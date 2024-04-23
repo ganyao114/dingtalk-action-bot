@@ -92,7 +92,7 @@ class Params(json: String?) {
                         "- PR 标题：$prTitle\n" +
                         "- PR 内容：$prBody\n" +
                         "- 提交记录：\n" +
-                        "$prCommits\n"
+                        "   - $prCommits\n"
             } else {
                 pullRequest = null
             }
