@@ -1,5 +1,6 @@
 package com.swift
 import com.google.gson.Gson
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
 import java.lang.System
@@ -17,6 +18,8 @@ class Params(json: String?) {
     val actionId: String
     @SerializedName("commit_sha")
     val commitSha: String?
+    @SerializedName("commit_auth")
+    val commitAuth: String?
     @SerializedName("commit_info")
     val commitInfo: String?
     @SerializedName("action_ref")
@@ -43,7 +46,7 @@ class Params(json: String?) {
             actionRef = System.getenv("GITHUB_REF")
             accessToken = System.getenv("DING_ACCESS_TOKEN")
             accessSecure = System.getenv("DING_ACCESS_SECRET")
-            success = System.getenv().containsKey("BUILD_SUCCESS") && System.getenv("BUILD_SUCCESS").equals("1")
+            success = System.getenv().containsKey("BUILD_SUCCESS") && System.getenv("BUILD_SUCCESS").equals("true")
             commitSha = System.getenv("GITHUB_SHA")
             val commitInfoJson = System.getenv("COMMIT_INFO")
 
@@ -52,18 +55,42 @@ class Params(json: String?) {
                 val jsonObject = gson.fromJson(commitInfoJson, JsonObject::class.java)
                 val commit = jsonObject.getAsJsonObject("commit")
                 commitInfo = commit.get("message").asString
+                commitAuth = commit.getAsJsonObject("committer").get("name").asString
             } else {
                 commitInfo = null
+                commitAuth = null
             }
 
             val prNumber = System.getenv("PR_NUMBER")
 
             if (!prNumber.isNullOrEmpty()) {
+                var prCommits: String? = "null"
+                val prCommitsJson = System.getenv("PR_COMMITS")
+                prCommitsJson?.let {
+                    val gson = Gson()
+                    try {
+                        val jsonArray = gson.fromJson(commitInfoJson, JsonArray::class.java)
+                        var index = 1
+                        val content = StringBuilder()
+                        for (jsonElement in jsonArray) {
+                            val commit = jsonElement.getAsJsonObject().getAsJsonObject("commit")
+                            val info = commit.get("message").asString
+                            val url = jsonElement.getAsJsonObject().get("html_url").asString
+                            content.append("  $index. [$info]($url)")
+                            index++
+                        }
+                        prCommits = content.toString()
+                    } catch (e : Exception) {
+                        prCommits = "暂不支持"
+                    }
+                }
+
                 val prTitle = System.getenv("PR_TITLE")
                 val prAuthor = System.getenv("PR_AUTHOR")
-                val prCommits = System.getenv("PR_COMMITS")
+                val prBody = System.getenv("PR_BODY")
                 pullRequest = "- PR [#${prNumber}](https://github.com/$project/pull/$prNumber) [@${prAuthor}](https://github.com/$prAuthor)\n " +
-                        "- $prTitle\n" +
+                        "- PR 标题：$prTitle\n" +
+                        "- PR 内容：$prBody\n" +
                         "- 提交记录：\n" +
                         "$prCommits\n"
             } else {
@@ -88,6 +115,7 @@ class Params(json: String?) {
             actionRef = params.actionRef
             commitSha = params.commitSha
             commitInfo = params.commitInfo
+            commitAuth = params.commitAuth
             pullRequest = params.pullRequest
             release = params.release
             releaseInfo = params.releaseInfo

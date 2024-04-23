@@ -48,7 +48,7 @@ class Messager(private val params: Params) {
         content.append("- **<font color=#00C000 size=4>构建成功</font>**\n")
         content.append("- 构建日期：$formatted\n")
         params.actionRef?.let {
-            content.append("- [触发条件](${params.actionRef})\n")
+            content.append("- 触发条件：${params.actionRef}\n")
         }
         content.append("- Action 链接：[#${params.actionId}](https://github.com/${params.project}/actions/runs/${params.actionId})\n")
 
@@ -62,7 +62,8 @@ class Messager(private val params: Params) {
         } else {
             content.append("### Commit 信息\n")
             content.append("- 提交 [#${params.commitSha}](https://github.com/commit/${params.commitSha})\n")
-            content.append("- ${params.commitInfo}\n")
+            content.append("- 提交者：${params.commitAuth}\n")
+            content.append("- 提交信息：${params.commitInfo}\n")
         }
 
         uploadedFile?.let {
@@ -101,15 +102,9 @@ class Messager(private val params: Params) {
         content.append("- **<font color=#FF0000 size=4>构建失败</font>**\n")
         content.append("- 构建日期：$formatted\n")
         params.actionRef?.let {
-            content.append("- [触发条件](${params.actionRef})\n")
+            content.append("- 触发条件：${params.actionRef}\n")
         }
         content.append("- Action 链接：[#${params.actionId}](https://github.com/${params.project}/actions/runs/${params.actionId})\n")
-
-
-        params.pullRequest?.let {
-            content.append("### PR 信息\n")
-            content.append("${params.pullRequest}\n")
-        }
 
         if (!params.release.isNullOrEmpty()) {
             content.append("### 正式发布\n")
@@ -121,7 +116,8 @@ class Messager(private val params: Params) {
         } else {
             content.append("### Commit 信息\n")
             content.append("- 提交 [#${params.commitSha}](https://github.com/commit/${params.commitSha})\n")
-            content.append("- ${params.commitInfo}\n")
+            content.append("- 提交者：${params.commitAuth}\n")
+            content.append("- 提交信息：${params.commitInfo}\n")
         }
 
         params.users?.let {
