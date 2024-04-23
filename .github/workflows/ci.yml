@@ -39,8 +39,8 @@ jobs:
         export PR_NUMBER=${{ github.event.pull_request.number }}
         export PR_TITLE=${{ github.event.pull_request.title }}
         export PR_BODY=${{ github.event.pull_request.body }}
-        export PR_AUTHOR=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER | jq -r .user.login)
-        export PR_COMMITS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/${{ github.event.pull_request.number }}/commits)
+        export PR_AUTHOR=${{ github.event.pull_request.user.login }}
+        export PR_COMMITS=$(curl -s -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/${{ github.event.pull_request.number }}/commits)
         export RELEASE_TAG=${{ github.event.release.tag_name }}
         export RELEASE_BODY=${{ github.event.release.body }}
         export DING_ACCESS_SECRET=${{ secrets.DING_ACCESS_SECRET }}
