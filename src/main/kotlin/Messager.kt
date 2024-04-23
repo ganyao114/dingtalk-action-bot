@@ -61,7 +61,7 @@ class Messager(private val params: Params) {
             content.append("${params.pullRequest}\n")
         } else {
             content.append("### Commit 信息\n")
-            content.append("- 提交 [#${params.commitSha}](https://github.com/${params.project}/commit/${params.commitSha})\n")
+            content.append("- [提交链接}](https://github.com/${params.project}/commit/${params.commitSha})\n")
             content.append("- 提交者：${params.commitAuth}\n")
             content.append("- 提交信息：\n   ${params.commitInfo}\n")
         }
@@ -115,7 +115,7 @@ class Messager(private val params: Params) {
             content.append("${params.pullRequest}\n")
         } else {
             content.append("### Commit 信息\n")
-            content.append("- 提交 [#${params.commitSha}](https://github.com/${params.project}/commit/${params.commitSha})\n")
+            content.append("- [提交链接}](https://github.com/${params.project}/commit/${params.commitSha})\n")
             content.append("- 提交者：${params.commitAuth}\n")
             content.append("- 提交信息：\n   ${params.commitInfo}\n")
         }
