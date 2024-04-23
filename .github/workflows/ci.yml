@@ -33,12 +33,13 @@ jobs:
         # A file, directory or wildcard pattern that describes what to upload
         path: build/libs/*.jar
 
-    - name: Check build result
-      if: success()
-      run: export BUILD_SUCCESS=true
-
     - name: Test
       run: |
+        if success(); then
+          export BUILD_SUCCESS=true
+        else
+          export BUILD_SUCCESS=false
+        fi
         export PR_NUMBER=${{ github.event.pull_request.number }}
         export PR_TITLE=${{ github.event.pull_request.title }}
         export PR_BODY=${{ github.event.pull_request.body }}

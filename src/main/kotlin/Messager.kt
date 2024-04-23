@@ -106,12 +106,6 @@ class Messager(private val params: Params) {
         }
         content.append("- Action 链接：[#${params.actionId}](https://github.com/${params.project}/actions/runs/${params.actionId})\n")
 
-
-        params.pullRequest?.let {
-            content.append("### PR 信息\n")
-            content.append("${params.pullRequest}\n")
-        }
-
         if (!params.release.isNullOrEmpty()) {
             content.append("### 正式发布\n")
             content.append("- 版本：${params.release}\n")
