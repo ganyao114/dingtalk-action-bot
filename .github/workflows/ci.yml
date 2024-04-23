@@ -38,7 +38,7 @@ jobs:
         export BUILD_SUCCESS=1
         export PR_NUMBER=${{ github.event.pull_request.number }}
         export PR_TITLE=${{ github.event.pull_request.title }}
-        export PR_PR_AUTHOR=${{ github.event.pull_request.user.login }}
+        export PR_PR_AUTHOR=${{ github.event.pull_request.user.id }}
         export PR_COMMITS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/${{ github.event.pull_request.number }}/commits)
         export RELEASE_TAG=${{ github.event.release.tag_name }}
         export RELEASE_BODY=${{ github.event.release.body }}
