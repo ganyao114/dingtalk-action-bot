@@ -2,9 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [ "main, dev" ]
   pull_request:
-    branches: [ "main, dev" ]
   release:
     types: [created]
   # Allows you to run this workflow manually from the Actions tab
