@@ -19,7 +19,12 @@ fun zipFiles(paths: Array<String>, password : String): String? {
 
         // 添加文件到压缩文件
         for (path in paths) {
-            zipFile.addFile(File(path), parameters)
+            val file = File(path)
+            if (file.isDirectory) {
+                zipFile.addFolder(file, parameters)
+            } else {
+                zipFile.addFile(file, parameters)
+            }
         }
         zipFile.close()
         return zipFile.file.absolutePath
