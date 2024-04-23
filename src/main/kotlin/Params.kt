@@ -66,8 +66,10 @@ class Params(json: String?) {
                 val prTitle = System.getenv("PR_TITLE")
                 val prAuthor = System.getenv("PR_AUTHOR")
                 val prCommits = System.getenv("PR_COMMITS")
+                val prBody = System.getenv("PR_BODY")
                 pullRequest = "- PR [#${prNumber}](https://github.com/$project/pull/$prNumber) [@${prAuthor}](https://github.com/$prAuthor)\n " +
-                        "- $prTitle\n" +
+                        "- PR 标题：$prTitle\n" +
+                        "- PR 内容：$prBody\n" +
                         "- 提交记录：\n" +
                         "$prCommits\n"
             } else {
