@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [ "master, dev" ]
+  pull_request:
+    branches: [ "master, dev" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: gradle
+
+    - name: Build
+      run: |
+        chmod +x gradlew
+        ./gradlew jar
+        
+    - name: Upload jar
+      uses: actions/upload-artifact@v3.1.2
+      with:
+        # Artifact name
+        name: swift-dingtalk-bot.jar
+        # A file, directory or wildcard pattern that describes what to upload
+        path: build/libs/*.jar
+
+    - name: Test
+      run: |
+        BUILD_SUCCESS=1
+        PR_NUMBER=${{ github.event.pull_request.number }}
+        PR_TITLE=${{ github.event.pull_request.title }}
+        PR_PR_AUTHOR=${{ github.event.pull_request.user.login }}
+        PR_COMMITS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/${{ github.event.pull_request.number }}/commits)
+        RELEASE_TAG=${{ github.event.release.tag_name }}
+        RELEASE_BODY=${{ github.event.release.body }}
+        BUILD_OUTPUT_FILES=${GITHUB_WORKSPACE}/build/libs/dingtalk-action-robot-1.0.jar
+        java -jar build/libs/dingtalk-action-robot-1.0.jar
+        
+        
