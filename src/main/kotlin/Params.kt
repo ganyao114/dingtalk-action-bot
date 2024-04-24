@@ -55,7 +55,7 @@ class Params(json: String?) {
                 val jsonObject = gson.fromJson(commitInfoJson, JsonObject::class.java)
                 val commit = jsonObject.getAsJsonObject("commit")
                 commitInfo = commit.get("message").asString
-                commitAuth = commit.getAsJsonObject("committer").get("name").asString
+                commitAuth = commit.getAsJsonObject("author").get("name").asString
             } else {
                 commitInfo = null
                 commitAuth = null
@@ -76,7 +76,7 @@ class Params(json: String?) {
                             val commit = jsonElement.getAsJsonObject().getAsJsonObject("commit")
                             val info = commit.get("message").asString
                             val url = jsonElement.getAsJsonObject().get("html_url").asString
-                            content.append("  $index. [$info]($url)")
+                            content.append("    - $index. [$info]($url)")
                             index++
                         }
                         prCommits = content.toString()
@@ -92,7 +92,7 @@ class Params(json: String?) {
                         "- PR 标题：$prTitle\n" +
                         "- PR 内容：$prBody\n" +
                         "- 提交记录：\n" +
-                        "$prCommits\n"
+                        "   - $prCommits\n"
             } else {
                 pullRequest = null
             }
