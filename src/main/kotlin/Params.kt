@@ -55,7 +55,7 @@ class Params(json: String?) {
                 val jsonObject = gson.fromJson(commitInfoJson, JsonObject::class.java)
                 val commit = jsonObject.getAsJsonObject("commit")
                 commitInfo = commit.get("message").asString
-                commitAuth = commit.getAsJsonObject("committer").get("name").asString
+                commitAuth = commit.getAsJsonObject("author").get("name").asString
             } else {
                 commitInfo = null
                 commitAuth = null

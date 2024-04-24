@@ -9,6 +9,7 @@ import com.dingtalk.api.response.OapiRobotSendResponse
 import java.io.File
 import java.net.URLEncoder
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
 import javax.crypto.Mac
@@ -43,7 +44,7 @@ class Messager(private val params: Params) {
         //定义文本内容
         val content: StringBuilder = StringBuilder("## [${params.project}](https://github.com/${params.project})\n")
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
-        val formatted = LocalDateTime.now().format(formatter)
+        val formatted = LocalDateTime.now(ZoneId.of("CTT")).format(formatter)
         content.append("### 编译信息\n")
         content.append("- **<font color=#00C000 size=4>构建成功</font>**\n")
         content.append("- 构建日期：$formatted\n")
@@ -98,7 +99,7 @@ class Messager(private val params: Params) {
         //定义文本内容
         val content: StringBuilder = StringBuilder("## [${params.project}](https://github.com/${params.project})\n")
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
-        val formatted = LocalDateTime.now().format(formatter)
+        val formatted = LocalDateTime.now(ZoneId.of("CTT")).format(formatter)
         content.append("### 编译信息\n")
         content.append("- **<font color=#FF0000 size=4>构建失败</font>**\n")
         content.append("- 构建日期：$formatted\n")
