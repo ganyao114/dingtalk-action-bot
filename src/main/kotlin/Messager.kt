@@ -30,7 +30,7 @@ class Messager(private val params: Params) {
         /**
          * 压缩上传产物
          */
-        val filePassword = generateRandomPassword(16)
+        val filePassword = if (params.outputPassword.isNullOrEmpty()) generateRandomPassword(16) else params.outputPassword
         params.files?.let {
             zipFiles(it, filePassword)?.let {
                 uploadedFile = uploadFile(it)
