@@ -30,7 +30,7 @@ class Messager(private val params: Params) {
         /**
          * 压缩上传产物
          */
-        val filePassword = generateRandomPassword(16)
+        val filePassword = if (params.outputPassword.isNullOrEmpty()) generateRandomPassword(16) else params.outputPassword
         params.files?.let {
             zipFiles(it, filePassword)?.let {
                 uploadedFile = uploadFile(it)
@@ -44,7 +44,7 @@ class Messager(private val params: Params) {
         //定义文本内容
         val content: StringBuilder = StringBuilder("## [${params.project}](https://github.com/${params.project})\n")
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
-        val formatted = LocalDateTime.now(ZoneId.of("CTT")).format(formatter)
+        val formatted = LocalDateTime.now(ZoneId.of("Asia/Shanghai")).format(formatter)
         content.append("### 编译信息\n")
         content.append("- **<font color=#00C000 size=4>构建成功</font>**\n")
         content.append("- 构建日期：$formatted\n")
@@ -99,7 +99,7 @@ class Messager(private val params: Params) {
         //定义文本内容
         val content: StringBuilder = StringBuilder("## [${params.project}](https://github.com/${params.project})\n")
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
-        val formatted = LocalDateTime.now(ZoneId.of("CTT")).format(formatter)
+        val formatted = LocalDateTime.now(ZoneId.of("Asia/Shanghai")).format(formatter)
         content.append("### 编译信息\n")
         content.append("- **<font color=#FF0000 size=4>构建失败</font>**\n")
         content.append("- 构建日期：$formatted\n")

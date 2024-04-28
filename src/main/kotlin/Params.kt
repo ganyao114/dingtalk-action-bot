@@ -38,6 +38,8 @@ class Params(json: String?) {
     val ossKey: String?
     @SerializedName("oss_api_sec")
     val ossSec: String?
+    @SerializedName("output_password")
+    val outputPassword: String?
 
     init {
         if (json.isNullOrEmpty()) {
@@ -104,6 +106,7 @@ class Params(json: String?) {
             users = System.getenv("DING_USERS")?.split(",".toRegex())?.toTypedArray()
             ossKey = System.getenv("OSS_API_KEY")
             ossSec = System.getenv("OSS_API_SEC")
+            outputPassword = System.getenv("OUTPUT_PASSWORD")
         } else {
             val gson = Gson()
             val params = gson.fromJson(json, Params::class.java)
@@ -123,6 +126,7 @@ class Params(json: String?) {
             users = params.users
             ossKey = params.ossKey
             ossSec = params.ossSec
+            outputPassword = params.outputPassword
         }
     }
 }
