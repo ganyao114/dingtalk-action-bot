@@ -41,17 +41,17 @@ jobs:
       run: |
         export PR_NUMBER=${{ github.event.pull_request.number }}
         export PR_TITLE="${{ github.event.pull_request.title }}"
-        export PR_BODY="${{ github.event.pull_request.body }}"
+        echo ${{ github.event.pull_request.body }}" >> PR_BODY.txt
         export PR_AUTHOR=${{ github.event.pull_request.user.login }}
-        export PR_COMMITS=$(curl -s -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/commits)
+        echo $(curl -s -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/commits) >> PR_COMMITS.txt
         export RELEASE_TAG=${{ github.event.release.tag_name }}
-        export RELEASE_BODY="${{ github.event.release.body }}"
+        echo ${{ github.event.release.body }}" >> RELEASE_BODY.txt
         export DING_ACCESS_SECRET=${{ secrets.DING_ACCESS_SECRET }}
         export DING_ACCESS_TOKEN=${{ secrets.DING_ACCESS_TOKEN }}
         export OSS_API_KEY=${{ secrets.OSS_API_KEY }}
         export OSS_API_SEC=${{ secrets.OSS_API_SEC }}
         export OUTPUT_PASSWORD=${{ secrets.OUTPUT_PASSWORD }}
-        export COMMIT_INFO=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA)
+        echo $(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA) >> COMMIT_INFO.txt
         export BUILD_OUTPUT_FILES=${GITHUB_WORKSPACE}/build/libs,${GITHUB_WORKSPACE}/build/libs/dingtalk-action-robot-1.0.jar
         java -jar build/libs/dingtalk-action-robot-1.0.jar
         
