@@ -3,6 +3,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
+import java.io.File
 import java.lang.System
 
 class Params(json: String?) {
@@ -50,8 +51,13 @@ class Params(json: String?) {
             accessSecure = System.getenv("DING_ACCESS_SECRET")
             success = System.getenv().containsKey("BUILD_SUCCESS") && System.getenv("BUILD_SUCCESS").equals("true")
             commitSha = System.getenv("GITHUB_SHA")
-            val commitInfoJson = System.getenv("COMMIT_INFO")
-
+            var commitInfoJson = System.getenv("COMMIT_INFO")
+            if (commitInfoJson.isNullOrEmpty()) {
+                val file = File("COMMIT_INFO.txt")
+                if (file.exists()) {
+                    commitInfoJson = file.readText()
+                }
+            }
             if (!commitInfoJson.isNullOrEmpty()) {
                 val gson = Gson()
                 val jsonObject = gson.fromJson(commitInfoJson, JsonObject::class.java)
@@ -67,7 +73,13 @@ class Params(json: String?) {
 
             if (!prNumber.isNullOrEmpty()) {
                 var prCommits: String? = "null"
-                val prCommitsJson = System.getenv("PR_COMMITS")
+                var prCommitsJson = System.getenv("PR_COMMITS")
+                if (prCommitsJson.isNullOrEmpty()) {
+                    val file = File("PR_COMMITS.txt")
+                    if (file.exists()) {
+                        prCommitsJson = file.readText()
+                    }
+                }
                 prCommitsJson?.let {
                     val gson = Gson()
                     try {
@@ -89,7 +101,13 @@ class Params(json: String?) {
 
                 val prTitle = System.getenv("PR_TITLE")
                 val prAuthor = System.getenv("PR_AUTHOR")
-                val prBody = System.getenv("PR_BODY")
+                var prBody = System.getenv("PR_BODY")
+                if (prBody.isNullOrEmpty()) {
+                    val file = File("PR_BODY.txt")
+                    if (file.exists()) {
+                        prBody = file.readText()
+                    }
+                }
                 pullRequest = "- PR [#${prNumber}](https://github.com/$project/pull/$prNumber) [@${prAuthor}](https://github.com/$prAuthor)\n " +
                         "- PR 标题：$prTitle\n" +
                         "- PR 内容：$prBody\n" +
