@@ -30,7 +30,7 @@ class Params(json: String?) {
     @SerializedName("release")
     val release: String?
     @SerializedName("release_info")
-    val releaseInfo: String?
+    var releaseInfo: String?
     @SerializedName("files")
     val files: Array<String>?
     @SerializedName("users")
@@ -119,6 +119,12 @@ class Params(json: String?) {
 
             release = System.getenv("RELEASE_TAG")
             releaseInfo = System.getenv("RELEASE_BODY")
+            if (releaseInfo.isNullOrEmpty()) {
+                val file = File("RELEASE_BODY.txt")
+                if (file.exists()) {
+                    releaseInfo = file.readText()
+                }
+            }
 
             files = System.getenv("BUILD_OUTPUT_FILES")?.split(",".toRegex())?.toTypedArray()
             users = System.getenv("DING_USERS")?.split(",".toRegex())?.toTypedArray()
